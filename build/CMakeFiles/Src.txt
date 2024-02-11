@@ -1,0 +1,9 @@
+rule Root = Rule | Rule1 | ID;
+
+rule Production = [Productions] | Symbol Production | Symbol;
+rule Productions = Production or Production | Production;
+rule Rule1 = rule1 Name = Productions;
+
+SSSSSSSSSSSSSSSSSSSSPACERRRRRR;
+
+rule1 NextRule = Token [ FirstOption or SecondOption ] or Token;

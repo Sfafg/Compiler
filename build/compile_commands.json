@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Projekty/C++/Parser/build",
+  "command": "C:\\Aplikacje\\mingw64\\bin\\g++.exe -DCMAKE_EXPORT_COMPILE_COMMANDS=ON @CMakeFiles/Parser.dir/includes_CXX.rsp -g -std=gnu++23 -o CMakeFiles\\Parser.dir\\tests\\Source.cpp.obj -c C:\\Projekty\\C++\\Parser\\tests\\Source.cpp",
+  "file": "C:/Projekty/C++/Parser/tests/Source.cpp",
+  "output": "CMakeFiles/Parser.dir/tests/Source.cpp.obj"
+}
+]

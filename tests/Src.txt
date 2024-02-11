@@ -1,0 +1,7 @@
+rule Root = Rule | Rule1 | ID;
+
+rule Production = Symbol Productions | Symbol | λ;
+rule Productions = Production or Productions | [Productions] | Production;
+rule Rule1 = rule1 Name = Productions;
+
+rule1 TestRule = λ;

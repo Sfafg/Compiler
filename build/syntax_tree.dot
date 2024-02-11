@@ -1,0 +1,102 @@
+digraph SyntaxTree{
+	graph [bgcolor=black]
+	node[color = gray, fontcolor = gray, fontsize = "60", fontweight="bold", penwidth = 5]
+	edge[color = gray, penwidth = 5]
+	"0aJ4FSI" [label="Root"]
+	"0aJ4FSI" -> "TfgGW1m"
+	"0aJ4FSI" -> "zIIHW1m"
+	"0aJ4FSI" -> "dMIHW1m"
+	"0aJ4FSI" -> "uCKHW1m"
+	"0aJ4FSI" -> "HgKHW1m"
+
+	"TfgGW1m" [label="Rule\nRoot"]
+	"TfgGW1m" -> "Y1bGW1m"
+	"TfgGW1m" -> "IFIHW1m"
+	"TfgGW1m" -> "_TIHW1m"
+
+	"Y1bGW1m" [label="Production"]
+	"Y1bGW1m" -> "SDIHW1m"
+
+	"SDIHW1m" [label="Rule"]
+	"IFIHW1m" [label="Production"]
+	"IFIHW1m" -> "9SIHW1m"
+
+	"9SIHW1m" [label="Rule1"]
+	"_TIHW1m" [label="Production"]
+	"_TIHW1m" -> "8HIHW1m"
+
+	"8HIHW1m" [label="ID"]
+	"zIIHW1m" [label="Rule\nProduction"]
+	"zIIHW1m" -> "n9IHW1m"
+	"zIIHW1m" -> "cBIHW1m"
+	"zIIHW1m" -> "oKIHW1m"
+
+	"n9IHW1m" [label="Production"]
+	"n9IHW1m" -> "TOIHW1m"
+	"n9IHW1m" -> "b0IHW1m"
+
+	"TOIHW1m" [label="Symbol"]
+	"b0IHW1m" [label="Productions"]
+	"cBIHW1m" [label="Production"]
+	"cBIHW1m" -> "R2IHW1m"
+
+	"R2IHW1m" [label="Symbol"]
+	"oKIHW1m" [label="Production"]
+	"oKIHW1m" -> "H4IHW1m"
+
+	"H4IHW1m" [label="λ"]
+	"dMIHW1m" [label="Rule\nProductions"]
+	"dMIHW1m" -> "JQIHW1m"
+	"dMIHW1m" -> "XuJHW1m"
+	"dMIHW1m" -> "DzJHW1m"
+
+	"JQIHW1m" [label="Production"]
+	"JQIHW1m" -> "aRKHW1m"
+	"JQIHW1m" -> "MlJHW1m"
+	"JQIHW1m" -> "7iKHW1m"
+
+	"aRKHW1m" [label="Production"]
+	"MlJHW1m" [label="or"]
+	"7iKHW1m" [label="Productions"]
+	"XuJHW1m" [label="Production"]
+	"XuJHW1m" -> "t1KHW1m"
+	"XuJHW1m" -> "GVKHW1m"
+	"XuJHW1m" -> "NxJHW1m"
+
+	"t1KHW1m" [label="["]
+	"GVKHW1m" [label="Productions"]
+	"NxJHW1m" [label="]"]
+	"DzJHW1m" [label="Production"]
+	"DzJHW1m" -> "CnJHW1m"
+
+	"CnJHW1m" [label="Production"]
+	"uCKHW1m" [label="Rule\nRule1"]
+	"uCKHW1m" -> "O7KHW1m"
+
+	"O7KHW1m" [label="Production"]
+	"O7KHW1m" -> "xYKHW1m"
+	"O7KHW1m" -> "ZGKHW1m"
+	"O7KHW1m" -> "4BKHW1m"
+	"O7KHW1m" -> "PIKHW1m"
+
+	"xYKHW1m" [label="rule1"]
+	"ZGKHW1m" [label="Name"]
+	"4BKHW1m" [label="="]
+	"PIKHW1m" [label="Productions"]
+	"HgKHW1m" [label="Rule1"]
+	"HgKHW1m" -> "hsJHW1m"
+	"HgKHW1m" -> "2pJHW1m"
+	"HgKHW1m" -> "kEKHW1m"
+	"HgKHW1m" -> "maKHW1m"
+
+	"hsJHW1m" [label="Keyword\nrule1"]
+	"2pJHW1m" [label="Name\nTestRule"]
+	"kEKHW1m" [label="Operator\n="]
+	"maKHW1m" [label="Productions"]
+	"maKHW1m" -> "Y5KHW1m"
+
+	"Y5KHW1m" [label="Production"]
+	"Y5KHW1m" -> "i3KHW1m"
+
+	"i3KHW1m" [label="Keyword\nλ"]
+}

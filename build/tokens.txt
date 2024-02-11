@@ -1,0 +1,7 @@
+<Keyword: Rule><Identifire: Root><Operator: Assignment><Identifire: Rule><Operator: Or><Identifire: Rule1><Operator: Or><Identifire: ID><SpecialCharacter: Semicolon>
+
+<Keyword: Rule><Identifire: Production><Operator: Assignment><Identifire: Symbol><Identifire: Productions><Operator: Or><Identifire: Symbol><Operator: Or><Keyword: Lambda><SpecialCharacter: Semicolon>
+<Keyword: Rule><Identifire: Productions><Operator: Assignment><Identifire: Production><Keyword: OrWord><Identifire: Productions><Operator: Or><SpecialCharacter: LBracket><Identifire: Productions><SpecialCharacter: RBracket><Operator: Or><Identifire: Production><SpecialCharacter: Semicolon>
+<Keyword: Rule><Identifire: Rule1><Operator: Assignment><Keyword: Rule1><Identifire: Name><Operator: Assignment><Identifire: Productions><SpecialCharacter: Semicolon>
+
+<Keyword: Rule1><Identifire: TestRule><Operator: Assignment><Keyword: Lambda><SpecialCharacter: Semicolon><SpecialCharacter: EOF>
