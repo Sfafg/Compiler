@@ -2,292 +2,103 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include "SourceInput.h"
 #include "Tokenizer.h"
+#include "Parser.h"
+#include "SymbolTable.h"
 
-// Zasady tworzenia drzewa z zasady:
-// 1. Żadne znaki specjalne nie idą na drzewo.
-// 2. Słowa kluczowe ida na drzewo tylko jeżeli są różne ich opcje.
-// 3. Identyfikatory i literały zawsze są dodawane na drzewo.
-// 4. Zasady zawsze są dodawane do drzewa.
-
-std::string ToBase62(unsigned long long int num)
+void ProcessOptions(Node& node)
 {
-    static const char* digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvxyz_";
-    std::stringstream ss;
-    while (num != 0)
+    if (node.type == Type::NT_Options && node.parent && node.parent->type == Type::NT_Sequence)
     {
-        int digit = num % 61;
-        num /= 61;
-        ss << digits[digit];
+        Node* parent = node.parent;
+        int index = parent->Find(&node);
+        node.parent->RemoveChild(index);
+
+        for (int i = 1; i < node.GetChildren().size(); i++)
+        {
+            Node* cpy = parent->Copy();
+            cpy->InsertChild(index, node.GetChildren()[i]);
+            parent->parent->AddChild(cpy);
+        }
+        parent->InsertChild(index, node.GetChildren()[0]);
+
+        return;
     }
 
-    return ss.str();
+    if (!node.IsLeaf())
+        for (int i = 0; i < node.GetChildren().size(); i++)
+        {
+            ProcessOptions(*node.GetChildren()[i]);
+        }
 }
 
-class Node
+void SortSequences(Node& node)
 {
-public:
-    Node(std::string name, Node* parent) :name(name), parent(parent), children({}), token(Token(Token::Type::None, "", ""))
+    if (node.type == Type::NT_Options)
     {
-        for (const auto& child : children) child->parent = this;
-    }
-    Node(std::string name, std::initializer_list<Node*> children = {}, Node* parent = nullptr) :name(name), parent(parent), children(children), token(Token(Token::Type::None, "", ""))
-    {
-        for (const auto& child : children) child->parent = this;
-    }
-    Node(std::string name, Token token, std::initializer_list<Node*> children = {}, Node* parent = nullptr) : name(name), parent(parent), children(children), token(token)
-    {
-        for (const auto& child : children) child->parent = this;
-    }
-
-    void AddChild(Node* node)
-    {
-        node->parent = this;
-        children.push_back(node);
-    }
-    void RemoveChild(Node* node)
-    {
-        node->parent = nullptr;
-        int i = 0;
-        for (; i < GetChildren().size(); i++) if (children[i] == node) break;
-        children.erase(children.begin() + i);
-    }
-    const std::vector<Node*>& GetChildren() const
-    {
-        return children;
-    }
-    std::vector<Node*>& GetChildren()
-    {
-        return children;
-    }
-
-    void GenerateCode(std::ostream& os) const
-    {
-        if (name == "Root")
+        for (int i = 0; i < node.GetChildren().size(); i++)
         {
-            for (const auto& child : children)
-                if (child->name == "Rule") os << "Node* TryParse" << child->token.value << "(Tokenizer& tk);\n";
-            for (const auto& child : children)
-                child->GenerateCode(os);
-        }
-        else if (name == "Rule")
-        {
-            os << "Node* TryParse" << token.value << "(Tokenizer& tk){\n int c = tk.current;\n";
-            for (int i = 0; i < children[0]->GetChildren().size(); i++)
+            int bestIndex = i;
+            for (int j = i + 1; j < node.GetChildren().size(); j++)
             {
-                os << "Node* a" << i << ";";
-            }
-            os << "\n\n";
-
-            for (const auto& child : children)
-            {
-                child->GenerateCode(os);
-            }
-            os << "return nullptr;\n}\n";
-        }
-        else if (name == "Production")
-        {
-            for (int i = 0; i < children.size(); i++)
-            {
-                std::stringstream ss;
-                children[i]->GenerateCode(ss);
-                os << "a" << i << " = " << ss.rdbuf() << ";\nif(a" << i << "!= nullptr){";
-            }
-            os << "return new Node(\"" << parent->token.value << "\",{";
-
-            bool wasLastPrinted = children[0]->token.type != Token::Type::SpecialCharacter && children[0]->token.type != Token::Type::SpecialCharacter;
-            if (wasLastPrinted) os << "a" << 0;
-            for (int i = 1; i < children.size(); i++)
-            {
-                if (wasLastPrinted) os << ", ";
-                wasLastPrinted = children[i]->token.type != Token::Type::SpecialCharacter && children[i]->token.type != Token::Type::SpecialCharacter;
-                if (wasLastPrinted) os << "a" << i;
-            }
-            os << "});\n";
-            for (int i = 0; i < children.size(); i++) os << "}\n";
-            os << "tk.current = c;\n\n";
-        }
-        else if (name == "Symbol")
-        {
-            bool isRule = false;
-            Node* root = parent;
-            switch (token.type)
-            {
-            case Token::Type::Keyword:
-            case Token::Type::Operator:
-            case Token::Type::SpecialCharacter:
-                os << "(tk.Peek().type == Token::Type::" << token.type << " && tk.Peek().key == \"" << token.key << "\") ? new Node(\"" << token.type << "\", tk.GetToken()) : nullptr";
-                break;
-            case Token::Type::Identifire:
-                while (root->parent != nullptr) root = root->parent;
-                for (auto&& child : root->GetChildren())
+                if (node.GetChildren()[bestIndex]->GetChildren().size() < node.GetChildren()[j]->GetChildren().size())
                 {
-                    if (child->name == "Rule" && child->token.value == token.value)
-                    {
-                        isRule = true;
-                        break;
-                    }
+                    bestIndex = j;
                 }
-                if (isRule || token.value == "Rule") os << "TryParse" << token.value << "(tk)";
-                else os << "(tk.Peek().type == Token::Type::Identifire) ? new Node(\"" << token.key << "\", tk.GetToken()) : nullptr";
-                break;
-            case Token::Type::Literal:
-                os << "(tk.Peek().type == Token::Type::Literal) ? new Node(\"" << (token.key[0] == '\"' ? token.key.substr(1, token.key.size() - 2) : token.key) << "\", tk.GetToken()) : nullptr";
-                break;
-            default: break;
             }
+
+            node.InsertChild(i, node.RemoveChild(bestIndex));
         }
+        return;
     }
 
-    std::string name;
-    Node* parent;
-    Token token;
-
-private:
-    std::vector<Node*> children;
-};
-std::ostream& operator<<(std::ostream& os, const Node& node)
-{
-    os << "\t\"" << ToBase62((unsigned long long) & node) << "\" [label=\"";
-    if (node.name != "Symbol")
-    {
-        os << node.name;
-        if (node.token.type != Token::Type::None) os << "\\n";
-    }
-    if (node.token.type != Token::Type::None)
-    {
-        os << node.token.value;
-    }
-    os << "\"]\n";
-
-    for (const auto& child : node.GetChildren())
-        os << "\t\"" << ToBase62((unsigned long long) & node) << "\" -> \"" << ToBase62((unsigned long long) child) << "\"\n";
-    if (node.GetChildren().size() != 0)os << '\n';
-    for (const auto& child : node.GetChildren())
-        os << *child;
-
-    return os;
-}
-
-Node* ParseProduction(Tokenizer& tk)
-{
-    Node* production = new Node("Production");
-    while (tk.Peek().key != "Or" && tk.Peek().key != "Semicolon" && tk.Peek().key != "EOF")
-    {
-        production->AddChild(new Node("Symbol", tk.GetToken()));
-    }
-    if (production->GetChildren().size() == 0)
-    {
-        delete production;
-        return nullptr;
-    }
-    return production;
-}
-Node* TryParseRule(Tokenizer& tk)
-{
-    if (tk.GetToken().key == "Rule")
-    {
-        Node* ruleNode = new Node("Rule");
-
-        if (tk.Peek().type != Token::Type::Identifire)
+    if (!node.IsLeaf())
+        for (int i = 0; i < node.GetChildren().size(); i++)
         {
-            std::cerr << "ERROR: Expected Identifire at " << tk.GetToken().value << "";
-            return nullptr;
+            SortSequences(*node.GetChildren()[i]);
         }
-        ruleNode->token = tk.GetToken();
-
-        if (tk.Peek().key != "Assignment")
-        {
-            std::cerr << "ERROR: Expected Assignment Operator at " << tk.GetToken().value << "";
-            return nullptr;
-        }
-        tk.GetToken();
-
-        Node* production = ParseProduction(tk);
-        if (production == nullptr)
-        {
-            std::cerr << "ERROR: Expected at least one production at " << tk.GetToken().value;
-            return nullptr;
-        }
-        ruleNode->AddChild(production);
-        while (tk.GetToken().key != "Semicolon")
-        {
-            production = ParseProduction(tk);
-            ruleNode->AddChild(production);
-        }
-
-        return ruleNode;
-    }
-    tk.Revert();
-    return nullptr;
-}
-#define EXP
-#ifdef EXP
-#include "C:\Projekty\C++\Parser\build\code.cpp"
-#endif
-Node* Parse(Tokenizer& tk)
-{
-#ifdef EXP
-    Node* node = TryParseRoot(tk);
-#else
-    Node* node = TryParseRule(tk);
-#endif
-    tk.Consume(tk.current);
-    return node;
 }
 
 int main()
 {
-    Source source("C:/Projekty/C++/Parser/tests/Src.txt");
-    Tokenizer tk(
-        &source,
+    // Preprocessing
+    SourceInput sourceInput("C:/Projekty/C++/Parser/tests/Src.txt");
+    for (int i = 0; i < sourceInput.source.size(); i++)
+        if (sourceInput.source[i] == '/' && sourceInput.source[i + 1] == '/')
         {
-            {Token::Type::Keyword, "Int", "int"},
-            {Token::Type::Keyword, "Float", "float"},
-            {Token::Type::Keyword, "Char", "char"},
-            {Token::Type::Keyword, "String", "string"},
-            {Token::Type::Keyword, "Rule", "rule"},
-            {Token::Type::Keyword, "Rule1", "rule1"},
-            {Token::Type::Keyword, "OrWord", "or"},
-            {Token::Type::Keyword, "Lambda", "λ"},
-            {Token::Type::SpecialCharacter, "Semicolon", ";"},
-            {Token::Type::SpecialCharacter, "LBracket", "["},
-            {Token::Type::SpecialCharacter, "RBracket", "]"},
-            {Token::Type::SpecialCharacter, "LCurly", "{"},
-            {Token::Type::SpecialCharacter, "RCurly", "}"},
-            {Token::Type::SpecialCharacter, "LParenthesis", "("},
-            {Token::Type::SpecialCharacter, "RParenthesis", ")"},
-            {Token::Type::SpecialCharacter, "Comma", ","},
-            {Token::Type::SpecialCharacter, "EOF", ""},
-            {Token::Type::Operator, "Assignment", "="},
-            {Token::Type::Operator, "Add", "+"},
-            {Token::Type::Operator, "Subtract", "-"},
-            {Token::Type::Operator, "Multiply", "*"},
-            {Token::Type::Operator, "Divide", "/"},
-            {Token::Type::Operator, "Or", "|"},
-            {Token::Type::Operator, "And", "&"},
-        },
-        "tokens.txt"
-        );
+            int end = i;
+            while (sourceInput.source[end] != '\n' && sourceInput.source[end] != 0) end++;
+            sourceInput.source.erase(sourceInput.source.begin() + i, sourceInput.source.begin() + end);
+        }
+    std::ofstream("PreprocessorOutput.txt") << sourceInput.source;
 
-    Node root("Root");
+    // Token analisys and parsing
+    Tokenizer tk(&sourceInput, "tokens.txt");
+
+    Node root(Type::NT_Root);
     while (!tk.eof)
     {
-        Node* node = Parse(tk);
-        if (node != nullptr)
+        Node* node = Node::TryParse(tk, Type::NT_Root);
+        if (node)
         {
-            if (node->name == "Root")
-                for (auto&& child : node->GetChildren())
-                    root.AddChild(child);
-            else root.AddChild(node);
+            root.AddChild(node);
+            tk.Consume(tk.current);
         }
         else tk.Consume();
     }
 
-    std::ofstream outputCode("code.cpp");
-    root.GenerateCode(outputCode);
+    // Semantic analisys and tree preprocessing
+    ProcessOptions(root);
+    SortSequences(root);
+    SymbolTable symbolTable(root);
 
+    // Draw the tree.
     std::ofstream graphFile("syntax_tree.dot", std::ios_base::trunc);
     graphFile << "digraph SyntaxTree{\n\tgraph [bgcolor=black]\n\tnode[color = gray, fontcolor = gray, fontsize = \"60\", fontweight=\"bold\", penwidth = 5]\n\tedge[color = gray, penwidth = 5]\n" << root << "}";
     graphFile.close();
+
+    // Code generation
+    root.symbolTable = &symbolTable;
+    std::ofstream("code.cpp") << root.GenerateCode();
 }

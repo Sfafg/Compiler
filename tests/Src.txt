@@ -1,7 +1,7 @@
-rule Root = Rule | Rule1 | ID;
-
-rule Production = Symbol Productions | Symbol | λ;
-rule Productions = Production or Productions | [Productions] | Production;
-rule Rule1 = rule1 Name = Productions;
-
-rule1 TestRule = λ;
+rule EscapedCharacter = \\ SpecialCharacter;
+rule EscapedOperator = \\ Operator;
+rule Symbol = Keyword | StringLiteral | Identifire | NumericLiteral | EscapedCharacter | EscapedOperator; 
+rule Sequence = \[Options\] | Symbol Sequence | Symbol;
+rule Options = Sequence \| Options | Sequence;
+rule Rule = rule ID = Options \;;
+rule Root = Rule;

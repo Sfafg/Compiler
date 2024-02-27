@@ -1,8 +1,32 @@
 [
 {
   "directory": "C:/Projekty/C++/Parser/build",
-  "command": "C:\\Aplikacje\\mingw64\\bin\\g++.exe -DCMAKE_EXPORT_COMPILE_COMMANDS=ON @CMakeFiles/Parser.dir/includes_CXX.rsp -g -std=gnu++23 -o CMakeFiles\\Parser.dir\\tests\\Source.cpp.obj -c C:\\Projekty\\C++\\Parser\\tests\\Source.cpp",
+  "command": "C:\\Aplikacje\\mingw64\\bin\\g++.exe -DCMAKE_EXPORT_COMPILE_COMMANDS=ON @CMakeFiles/Compiler.dir/includes_CXX.rsp -g -std=gnu++23 -o CMakeFiles\\Compiler.dir\\src\\SourceInput.cpp.obj -c C:\\Projekty\\C++\\Parser\\src\\SourceInput.cpp",
+  "file": "C:/Projekty/C++/Parser/src/SourceInput.cpp",
+  "output": "CMakeFiles/Compiler.dir/src/SourceInput.cpp.obj"
+},
+{
+  "directory": "C:/Projekty/C++/Parser/build",
+  "command": "C:\\Aplikacje\\mingw64\\bin\\g++.exe -DCMAKE_EXPORT_COMPILE_COMMANDS=ON @CMakeFiles/Compiler.dir/includes_CXX.rsp -g -std=gnu++23 -o CMakeFiles\\Compiler.dir\\src\\Tokenizer.cpp.obj -c C:\\Projekty\\C++\\Parser\\src\\Tokenizer.cpp",
+  "file": "C:/Projekty/C++/Parser/src/Tokenizer.cpp",
+  "output": "CMakeFiles/Compiler.dir/src/Tokenizer.cpp.obj"
+},
+{
+  "directory": "C:/Projekty/C++/Parser/build",
+  "command": "C:\\Aplikacje\\mingw64\\bin\\g++.exe -DCMAKE_EXPORT_COMPILE_COMMANDS=ON @CMakeFiles/Compiler.dir/includes_CXX.rsp -g -std=gnu++23 -o CMakeFiles\\Compiler.dir\\src\\Parser.cpp.obj -c C:\\Projekty\\C++\\Parser\\src\\Parser.cpp",
+  "file": "C:/Projekty/C++/Parser/src/Parser.cpp",
+  "output": "CMakeFiles/Compiler.dir/src/Parser.cpp.obj"
+},
+{
+  "directory": "C:/Projekty/C++/Parser/build",
+  "command": "C:\\Aplikacje\\mingw64\\bin\\g++.exe -DCMAKE_EXPORT_COMPILE_COMMANDS=ON @CMakeFiles/Compiler.dir/includes_CXX.rsp -g -std=gnu++23 -o CMakeFiles\\Compiler.dir\\src\\Type.cpp.obj -c C:\\Projekty\\C++\\Parser\\src\\Type.cpp",
+  "file": "C:/Projekty/C++/Parser/src/Type.cpp",
+  "output": "CMakeFiles/Compiler.dir/src/Type.cpp.obj"
+},
+{
+  "directory": "C:/Projekty/C++/Parser/build",
+  "command": "C:\\Aplikacje\\mingw64\\bin\\g++.exe -DCMAKE_EXPORT_COMPILE_COMMANDS=ON @CMakeFiles/Compiler.dir/includes_CXX.rsp -g -std=gnu++23 -o CMakeFiles\\Compiler.dir\\tests\\Source.cpp.obj -c C:\\Projekty\\C++\\Parser\\tests\\Source.cpp",
   "file": "C:/Projekty/C++/Parser/tests/Source.cpp",
-  "output": "CMakeFiles/Parser.dir/tests/Source.cpp.obj"
+  "output": "CMakeFiles/Compiler.dir/tests/Source.cpp.obj"
 }
 ]

@@ -116,24 +116,120 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Parser
+# Target rules for targets named Compiler
 
 # Build rule for target.
-Parser: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 Parser
-.PHONY : Parser
+Compiler: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 Compiler
+.PHONY : Compiler
 
 # fast build rule for target.
-Parser/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Parser.dir\build.make CMakeFiles/Parser.dir/build
-.PHONY : Parser/fast
+Compiler/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/build
+.PHONY : Compiler/fast
+
+src/Parser.obj: src/Parser.cpp.obj
+.PHONY : src/Parser.obj
+
+# target to build an object file
+src/Parser.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/Parser.cpp.obj
+.PHONY : src/Parser.cpp.obj
+
+src/Parser.i: src/Parser.cpp.i
+.PHONY : src/Parser.i
+
+# target to preprocess a source file
+src/Parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/Parser.cpp.i
+.PHONY : src/Parser.cpp.i
+
+src/Parser.s: src/Parser.cpp.s
+.PHONY : src/Parser.s
+
+# target to generate assembly for a file
+src/Parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/Parser.cpp.s
+.PHONY : src/Parser.cpp.s
+
+src/SourceInput.obj: src/SourceInput.cpp.obj
+.PHONY : src/SourceInput.obj
+
+# target to build an object file
+src/SourceInput.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/SourceInput.cpp.obj
+.PHONY : src/SourceInput.cpp.obj
+
+src/SourceInput.i: src/SourceInput.cpp.i
+.PHONY : src/SourceInput.i
+
+# target to preprocess a source file
+src/SourceInput.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/SourceInput.cpp.i
+.PHONY : src/SourceInput.cpp.i
+
+src/SourceInput.s: src/SourceInput.cpp.s
+.PHONY : src/SourceInput.s
+
+# target to generate assembly for a file
+src/SourceInput.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/SourceInput.cpp.s
+.PHONY : src/SourceInput.cpp.s
+
+src/Tokenizer.obj: src/Tokenizer.cpp.obj
+.PHONY : src/Tokenizer.obj
+
+# target to build an object file
+src/Tokenizer.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/Tokenizer.cpp.obj
+.PHONY : src/Tokenizer.cpp.obj
+
+src/Tokenizer.i: src/Tokenizer.cpp.i
+.PHONY : src/Tokenizer.i
+
+# target to preprocess a source file
+src/Tokenizer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/Tokenizer.cpp.i
+.PHONY : src/Tokenizer.cpp.i
+
+src/Tokenizer.s: src/Tokenizer.cpp.s
+.PHONY : src/Tokenizer.s
+
+# target to generate assembly for a file
+src/Tokenizer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/Tokenizer.cpp.s
+.PHONY : src/Tokenizer.cpp.s
+
+src/Type.obj: src/Type.cpp.obj
+.PHONY : src/Type.obj
+
+# target to build an object file
+src/Type.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/Type.cpp.obj
+.PHONY : src/Type.cpp.obj
+
+src/Type.i: src/Type.cpp.i
+.PHONY : src/Type.i
+
+# target to preprocess a source file
+src/Type.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/Type.cpp.i
+.PHONY : src/Type.cpp.i
+
+src/Type.s: src/Type.cpp.s
+.PHONY : src/Type.s
+
+# target to generate assembly for a file
+src/Type.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/Type.cpp.s
+.PHONY : src/Type.cpp.s
 
 tests/Source.obj: tests/Source.cpp.obj
 .PHONY : tests/Source.obj
 
 # target to build an object file
 tests/Source.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Parser.dir\build.make CMakeFiles/Parser.dir/tests/Source.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/tests/Source.cpp.obj
 .PHONY : tests/Source.cpp.obj
 
 tests/Source.i: tests/Source.cpp.i
@@ -141,7 +237,7 @@ tests/Source.i: tests/Source.cpp.i
 
 # target to preprocess a source file
 tests/Source.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Parser.dir\build.make CMakeFiles/Parser.dir/tests/Source.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/tests/Source.cpp.i
 .PHONY : tests/Source.cpp.i
 
 tests/Source.s: tests/Source.cpp.s
@@ -149,7 +245,7 @@ tests/Source.s: tests/Source.cpp.s
 
 # target to generate assembly for a file
 tests/Source.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Parser.dir\build.make CMakeFiles/Parser.dir/tests/Source.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/tests/Source.cpp.s
 .PHONY : tests/Source.cpp.s
 
 # Help Target
@@ -160,7 +256,19 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... Parser
+	@echo ... Compiler
+	@echo ... src/Parser.obj
+	@echo ... src/Parser.i
+	@echo ... src/Parser.s
+	@echo ... src/SourceInput.obj
+	@echo ... src/SourceInput.i
+	@echo ... src/SourceInput.s
+	@echo ... src/Tokenizer.obj
+	@echo ... src/Tokenizer.i
+	@echo ... src/Tokenizer.s
+	@echo ... src/Type.obj
+	@echo ... src/Type.i
+	@echo ... src/Type.s
 	@echo ... tests/Source.obj
 	@echo ... tests/Source.i
 	@echo ... tests/Source.s
