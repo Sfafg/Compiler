@@ -1,0 +1,9 @@
+rule Identifire = "[a-Z|_][a-Z|_|0-9]*";
+rule SpecialCharacter = "[;|]";
+rule EscapedCharacter = \\ SpecialCharacter;
+rule EscapedOperator = \\ Operator;
+rule Symbol = Keyword | StringLiteral | Identifire | NumericLiteral | EscapedCharacter | EscapedOperator;
+rule Sequence = \[Options\] | Symbol Sequence | Symbol;
+rule Options = Sequence \ | Options | Sequence;
+rule Rule = rule ID = Options \;;
+rule Root = Rule;
