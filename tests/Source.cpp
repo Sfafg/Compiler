@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
-#include "Token.h"
+#include "Parser.h"
 
 std::string ReadSourceCode(const char* sourceFilePath)
 {

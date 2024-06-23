@@ -16,13 +16,15 @@ enum class RuleType
     Identifire,
     TerminalRule,
     NonTerminalRule,
+    LabeledSymbol,
+    RuleToken,
     RuleSequence,
     RuleProduction,
     Rule,
     Start,
     FirstNonTerminalRule = TerminalRule,
 };
-const std::array<const char*, 11> ruleTypeNames
+const std::array<const char*, 13> ruleTypeNames
 {
     "Operator",
     "SpacialCharacter",
@@ -31,6 +33,8 @@ const std::array<const char*, 11> ruleTypeNames
     "Identifire",
     "TerminalRule",
     "NonTerminalRule",
+    "LabeledSymbol",
+    "RuleToken",
     "RuleSequence",
     "RuleProduction",
     "Rule",
@@ -39,7 +43,7 @@ const std::array<const char*, 11> ruleTypeNames
 
 const std::array<std::regex, 5> terminalRuleProductions{
     std::regex("=|\\|"),
-    std::regex(";|:|\\\\\\||\\\\\\;"),
+    std::regex(";|:|\\\\\\||\\\\\\;|\\\\:"),
     std::regex("rule"),
     std::regex("\".*\""),
     std::regex("[a-zA-Z_][a-zA-Z0-9_]*"),
