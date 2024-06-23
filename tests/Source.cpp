@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <vector>
+#include "Token.h"
 
 std::string ReadSourceCode(const char* sourceFilePath)
 {
@@ -21,5 +23,23 @@ int main()
 {
     // Read Source Code from file.
     std::string sourceCodeText = ReadSourceCode("../tests/Src.txt");
-    std::cout << sourceCodeText;
+    std::string::iterator sourceIterator = sourceCodeText.begin();
+    std::string::iterator sourceEnd = sourceCodeText.end();
+
+    // Convert Source Code into an array of tokens.
+    std::vector<Token> tokens;
+
+    Token newToken;
+    do
+    {
+        std::string::iterator copy = sourceIterator;
+        newToken = Token(&sourceIterator, sourceEnd);
+        tokens.push_back(newToken);
+
+        std::cout << newToken << " ";
+        for (; copy != sourceIterator; copy++)
+            if (*copy == '\n')
+                std::cout << '\n';
+    }
+    while (newToken.type != RuleType::None);
 }

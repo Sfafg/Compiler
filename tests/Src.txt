@@ -1,1 +1,12 @@
-rule SpecialCharacter = "[;]";
+rule Operator = "=|\|";
+rule SpecialCharacter = ";|:|\\\|";
+rule Keyword = "rule";
+rule StringLiteral = "".*"";
+rule Identifire = "[a-zA-Z_][a-zA-Z0-9_]*";
+
+rule TerminalRule = StringLiteral;
+rule NonTerminalRule = Identifire;
+rule RuleOption = TerminalRule | NonTerminalRule;
+rule RuleProduction = RuleOption | RuleOption \| RuleProduction;
+rule Rule = rule Identifire = RuleProduction;
+rule Start = Rule \; | Rule \; Start;
