@@ -42,4 +42,18 @@ int main()
                 std::cout << '\n';
     }
     while (newToken.type != RuleType::None);
+
+    auto tokenIterator = tokens.begin();
+    Node* root = Parse(tokenIterator, RuleType::Start);
+    if (root != nullptr)
+    {
+        std::ofstream("Graph.dot")
+            << "digraph SyntaxTree{graph[bgcolor = black]node[color = gray, fontcolor = gray, fontsize = \"60\", fontweight = \"bold\", penwidth = 5]edge[color = gray, penwidth = 5]"
+            << *root
+            << "}";
+    }
+    else
+    {
+        std::cerr << "Failed parsing";
+    }
 }
